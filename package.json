@@ -1,6 +1,6 @@
 {
-  "name": "redux-thunk",
-  "version": "2.2.0",
+  "name": "redux-thunk-retry",
+  "version": "0.0.1",
   "description": "Thunk middleware for Redux.",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -27,9 +27,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/redux-thunk.git"
+    "url": "https://github.com/Riokai/redux-thunk-retry.git"
   },
-  "homepage": "https://github.com/gaearon/redux-thunk",
+  "homepage": "https://github.com/Riokai/redux-thunk-retry",
   "keywords": [
     "redux",
     "thunk",
@@ -37,7 +37,7 @@
     "redux-middleware",
     "flux"
   ],
-  "author": "Dan Abramov <dan.abramov@me.com>",
+  "author": "Kai <zengkai2009@foxmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.6.5",
