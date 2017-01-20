@@ -69,7 +69,49 @@ describe('thunk middleware', () => {
     });
   });
 
-  describe('handle errors', () => {
+  describe('handle retry action', () => {
+    it('must be invoked 10 times', doneTest => {
+      const thunkRetryMiddleware = thunkMiddleware.withOptions({ timeout: 100 });
+      const nextRetryHandler = thunkRetryMiddleware({dispatch: doDispatch, getState: doGetState});
+      const actionHandler = nextRetryHandler();
+      let sum = 0;
+      actionHandler((dispatch, getState, done) => {
+        if (sum === 10) {
+          done();
+        } else {
+          sum += 1;
+        }
+      });
+
+      setTimeout(() => {
+        chai.assert.strictEqual(sum, 10);
+
+        doneTest();
+      }, 1000);
+    });
+
+    it('must be invoked 5 times', doneTest => {
+      const thunkRetryMiddleware = thunkMiddleware.withOptions({ timeout: 100, maxRetry: 5 });
+      const nextRetryHandler = thunkRetryMiddleware({dispatch: doDispatch, getState: doGetState});
+      const actionHandler = nextRetryHandler();
+      let sum = 0;
+      actionHandler((dispatch, getState, done) => {
+        if (sum === 10) {
+          done();
+        } else {
+          sum += 1;
+        }
+      });
+
+      setTimeout(() => {
+        chai.assert.strictEqual(sum, 5);
+
+        doneTest();
+      }, 1000);
+    });
+  });
+
+  describe('with error action', () => {
     it('must throw if argument is non-object', done => {
       try {
         thunkMiddleware();
@@ -82,7 +124,7 @@ describe('thunk middleware', () => {
   describe('withExtraArgument', () => {
     it('must pass the third argument', done => {
       const extraArg = { lol: true };
-      thunkMiddleware.withExtraArgument(extraArg)({
+      thunkMiddleware.withOptions({ extraArgument: extraArg })({
         dispatch: doDispatch,
         getState: doGetState,
       })()((dispatch, getState, arg) => {
